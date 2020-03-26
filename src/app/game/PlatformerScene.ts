@@ -10,6 +10,10 @@ export default class PlatformerScene extends Phaser.Scene {
   background;
   middleground;
 
+  constructor() {
+    super({ key: 'platformerScene' });
+  }
+
   preload() {
     this.load.spritesheet(
       "player",
