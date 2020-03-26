@@ -7,6 +7,9 @@ export default class PlatformerScene extends Phaser.Scene {
   player;
   spikeGroup;
   marker;
+  background;
+  middleground;
+
   preload() {
     this.load.spritesheet(
       "player",
@@ -17,6 +20,8 @@ export default class PlatformerScene extends Phaser.Scene {
         margin: 2,
       }
     );
+    this.load.image('background', '../assets/images/background.png');
+    this.load.image('middleground', '../assets/images/middleground.png');
     this.load.image("spike", "../assets/images/0x72-industrial-spike.png");
     this.load.image("tiles", "../assets/tilesets/tilesets.png");
     this.load.tilemapTiledJSON("map", "../assets/tilemaps/platformer-deux.json");
@@ -24,6 +29,13 @@ export default class PlatformerScene extends Phaser.Scene {
 
   create() {
     this.isPlayerDead = false;
+
+    this.background = this.add.tileSprite(0, 0, this.game.config.width as number, this.game.config.height as number, 'background');
+    this.middleground = this.add.tileSprite(0, 0, this.game.config.width as number, this.game.config.height as number, 'middleground');
+    this.middleground.setOrigin(0, 0);
+    this.middleground.setScrollFactor(0);
+    this.background.setOrigin(0, 0);
+    this.background.setScrollFactor(0);
 
     const map = this.make.tilemap({ key: "map" });
     const tiles = map.addTilesetImage("tileset", "tiles");
@@ -63,21 +75,24 @@ export default class PlatformerScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player.sprite);
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
 
+    this.cameras.main.zoomTo(1.5, 2000);
+
     this.marker = new MouseTileMarker(this, map);
 
     // Help text that has a "fixed" position on the screen
     this.add
-      .text(16, 16, "Arrow/WASD to move & jump\nLeft click to draw platforms", {
-        font: "18px monospace",
-        fill: "#000000",
+      .text(16, 100, "Utilise les flèches pour te déplacer \n Pour poser des blocs, utilise le clic gauche", {
+        font: "16px monospace",
+        fill: "#ffffff",
         padding: { x: 20, y: 10 },
-        backgroundColor: "#ffffff"
       })
-      .setScrollFactor(0);
   }
+
 
   update(time, delta) {
     if (this.isPlayerDead) return;
+
+    this.middleground.tilePositionX = this.cameras.main.scrollX * 0.1;
 
     this.marker.update();
     this.player.update();
@@ -86,7 +101,7 @@ export default class PlatformerScene extends Phaser.Scene {
     const pointer = this.input.activePointer;
     const worldPoint = pointer.positionToCamera(this.cameras.main) as any;
     if (pointer.isDown) {
-      const tile = this.groundLayer.putTileAtWorldXY(160, worldPoint.x, worldPoint.y);
+      const tile = this.groundLayer.putTileAtWorldXY(166, worldPoint.x, worldPoint.y);
       tile.setCollision(true);
     }
 

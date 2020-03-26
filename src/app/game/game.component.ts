@@ -16,7 +16,6 @@ export class GameComponent implements OnInit {
       width: 800,
       height: 600,
       parent: "gameContainer",
-      backgroundColor: "#1d212d",
       scene: [PlatformerScene],
       physics: {
         default: "arcade",
