@@ -10,31 +10,29 @@ export default class PlatformerScene extends Phaser.Scene {
   preload() {
     this.load.spritesheet(
       "player",
-      "../assets/spritesheets/0x72-industrial-player-32px-extruded.png",
+      "../assets/spritesheets/adventurer-Sheet.png",
       {
-        frameWidth: 32,
-        frameHeight: 32,
-        margin: 1,
-        spacing: 2
+        frameWidth: 51,
+        frameHeight: 37,
+        margin: 2,
       }
     );
     this.load.image("spike", "../assets/images/0x72-industrial-spike.png");
-    this.load.image("tiles", "../assets/tilesets/0x72-industrial-tileset-32px-extruded.png");
-    this.load.tilemapTiledJSON("map", "../assets/tilemaps/platformer.json");
+    this.load.image("tiles", "../assets/tilesets/tileset_32x.png");
+    this.load.tilemapTiledJSON("map", "../assets/tilemaps/platformer-32.json");
   }
 
   create() {
     this.isPlayerDead = false;
 
     const map = this.make.tilemap({ key: "map" });
-    const tiles = map.addTilesetImage("0x72-industrial-tileset-32px-extruded", "tiles");
+    const tiles = map.addTilesetImage("gallet", "tiles");
 
     map.createDynamicLayer("Background", tiles);
     this.groundLayer = map.createDynamicLayer("Ground", tiles);
-    map.createDynamicLayer("Foreground", tiles);
 
     // Instantiate a player instance at the location of the "Spawn Point" object in the Tiled map
-    const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point");
+    const spawnPoint = map.findObject("Objects", obj => obj.name === "Spawn Point") as any;
     this.player = new Player(this, spawnPoint.x, spawnPoint.y);
 
     // Collide the player against the ground layer - here we are grabbing the sprite property from
@@ -86,9 +84,9 @@ export default class PlatformerScene extends Phaser.Scene {
 
     // Add a colliding tile at the mouse position
     const pointer = this.input.activePointer;
-    const worldPoint = pointer.positionToCamera(this.cameras.main);
+    const worldPoint = pointer.positionToCamera(this.cameras.main) as any;
     if (pointer.isDown) {
-      const tile = this.groundLayer.putTileAtWorldXY(6, worldPoint.x, worldPoint.y);
+      const tile = this.groundLayer.putTileAtWorldXY(160, worldPoint.x, worldPoint.y);
       tile.setCollision(true);
     }
 

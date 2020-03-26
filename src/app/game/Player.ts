@@ -38,6 +38,7 @@ export default class Player {
       a: A,
       d: D
     });
+
   }
 
   freeze() {
