@@ -18,15 +18,15 @@ export default class PlatformerScene extends Phaser.Scene {
       }
     );
     this.load.image("spike", "../assets/images/0x72-industrial-spike.png");
-    this.load.image("tiles", "../assets/tilesets/tileset_32x.png");
-    this.load.tilemapTiledJSON("map", "../assets/tilemaps/platformer-32.json");
+    this.load.image("tiles", "../assets/tilesets/tilesets.png");
+    this.load.tilemapTiledJSON("map", "../assets/tilemaps/platformer-deux.json");
   }
 
   create() {
     this.isPlayerDead = false;
 
     const map = this.make.tilemap({ key: "map" });
-    const tiles = map.addTilesetImage("gallet", "tiles");
+    const tiles = map.addTilesetImage("tileset", "tiles");
 
     map.createDynamicLayer("Background", tiles);
     this.groundLayer = map.createDynamicLayer("Ground", tiles);
