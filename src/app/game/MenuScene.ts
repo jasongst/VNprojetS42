@@ -1,16 +1,19 @@
 import PlatformerScene from './PlatformerScene';
 
-export default class MenuScene extends Phaser.Scene {
+export class MenuScene extends Phaser.Scene {
+    constructor() {
+        super('menu');
+    }
     preload() {
         this.load.image('screen', '../assets/images/menu.png');
         this.load.image('jouer', '../assets/images/jouerbutton.png');
         this.load.image('credits', '../assets/images/creditsbutton.png');
     }
     create() {
+
         this.add.image(0, 0, 'screen').setOrigin(0).setDepth(0);
-        const playbutton = this.add.image(this.game.config.width/2, this.game.config.height/2, "jouer").setDepth(1);
-        const creditbutton = this.add.image(this.game.config.width/2, this.game.config.height/2 + this.game.config.height/5 , "credits")
-            .setDepth(1);
+        const playbutton = this.add.image((this.game.config.width as number) / 2, (this.game.config.height as number) / 2, "jouer").setDepth(1);
+        const creditbutton = this.add.image((this.game.config.width as number) / 2, (this.game.config.height as number) / 2 + (this.game.config.height as number) / 5, "credits").setDepth(1);
 
         playbutton.setInteractive();
 
@@ -33,7 +36,11 @@ export default class MenuScene extends Phaser.Scene {
         });
 
         playbutton.on('pointerup', (pointer) => {
-            this.scene.start('platformerScene');
+            this.scene.start('Level3');
+        }, this);
+
+        creditbutton.on('pointerup', (pointer) => {
+            this.scene.start('credit');
         }, this);
 
     }

@@ -19,6 +19,7 @@ export default class MouseTileMarker {
     const pointerTileXY = this.map.worldToTileXY(worldPoint.x, worldPoint.y);
     const snappedWorldPoint = this.map.tileToWorldXY(pointerTileXY.x, pointerTileXY.y);
     this.graphics.setPosition(snappedWorldPoint.x, snappedWorldPoint.y);
+    this.scene.lights.addLight(180, 80, 10).setColor(0xffffff).setIntensity(5);
   }
 
   destroy() {
